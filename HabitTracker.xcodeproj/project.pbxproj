@@ -13,6 +13,7 @@
 		DDD191F4290136E0000C8B2F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDD191F3290136E0000C8B2F /* Preview Assets.xcassets */; };
 		DDD191F6290136E0000C8B2F /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD191F5290136E0000C8B2F /* Persistence.swift */; };
 		DDD191F9290136E0000C8B2F /* HabitTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DDD191F7290136E0000C8B2F /* HabitTracker.xcdatamodeld */; };
+		DDEACA14290167960056B120 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDEACA13290167960056B120 /* Home.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		DDD191F3290136E0000C8B2F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DDD191F5290136E0000C8B2F /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		DDD191F8290136E0000C8B2F /* HabitTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HabitTracker.xcdatamodel; sourceTree = "<group>"; };
+		DDEACA13290167960056B120 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,8 @@
 		DDD191EB290136DD000C8B2F /* HabitTracker */ = {
 			isa = PBXGroup;
 			children = (
+				DDEACA12290167800056B120 /* ViewModel */,
+				DDEACA11290167760056B120 /* View */,
 				DDD191EC290136DD000C8B2F /* HabitTrackerApp.swift */,
 				DDD191EE290136DD000C8B2F /* ContentView.swift */,
 				DDD191F0290136E0000C8B2F /* Assets.xcassets */,
@@ -71,6 +75,21 @@
 				DDD191F3290136E0000C8B2F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DDEACA11290167760056B120 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				DDEACA13290167960056B120 /* Home.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DDEACA12290167800056B120 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +164,7 @@
 			files = (
 				DDD191F6290136E0000C8B2F /* Persistence.swift in Sources */,
 				DDD191F9290136E0000C8B2F /* HabitTracker.xcdatamodeld in Sources */,
+				DDEACA14290167960056B120 /* Home.swift in Sources */,
 				DDD191EF290136DD000C8B2F /* ContentView.swift in Sources */,
 				DDD191ED290136DD000C8B2F /* HabitTrackerApp.swift in Sources */,
 			);
