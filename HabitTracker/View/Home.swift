@@ -9,6 +9,8 @@ import SwiftUI
 
 struct Home: View {
     @FetchRequest(entity: Habit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Habit.dateAdded, ascending: false)], predicate: nil, animation: .easeInOut) var habits: FetchedResults<Habit>
+    @StateObject var habitModel: HabitViewModel = .init()
+    
     var body: some View {
         VStack(spacing: 0) {
             Text("Habits")
@@ -29,7 +31,7 @@ struct Home: View {
                 VStack(spacing: 15) {
                     //MARK: Add Habit Button
                     Button {
-                        
+                        habitModel.addNewHabit.toggle()
                     } label: {
                         Label {
                             Text("New habbit")
@@ -47,6 +49,9 @@ struct Home: View {
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .padding()
+        .sheet(isPresented: $habitModel.addNewHabit) {
+            AddNewHabit()
+        }
     }
 }
 
