@@ -79,6 +79,7 @@ struct AddNewHabit: View {
                 Divider()
                     .padding(.vertical, 10)
                 
+                //Hiding If Notification Access is Rejected
                 HStack {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Remainder")
@@ -93,6 +94,8 @@ struct AddNewHabit: View {
                     Toggle(isOn: $habitModel.isRemainderOn) {}
                         .labelsHidden()
                 }
+                .opacity(habitModel.notificationAccess ? 1 : 0)
+                
                 
                 HStack(spacing: 12) {
                     Label {
@@ -116,12 +119,13 @@ struct AddNewHabit: View {
                 }
                 .frame(height: habitModel.isRemainderOn ? nil : 0)
                 .opacity(habitModel.isRemainderOn ? 1 : 0)
+                .opacity(habitModel.notificationAccess ? 1 : 0)
             }
             .animation(.easeInOut, value: habitModel.isRemainderOn)
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Add Habit")
+            .navigationTitle(habitModel.editHabit != nil ? "Edit Habit" : "Add Habit")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
@@ -131,14 +135,32 @@ struct AddNewHabit: View {
                     }
                     .tint(.white)
                 }
+               
+                //MARK: Delete Button
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        if habitModel.deleteHabit(context: env.managedObjectContext) {
+                            env.dismiss()
+                        }
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .tint(.red)
+                    .opacity(habitModel.editHabit == nil ? 0 : 1)
+                }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        if habitModel.addHabbit(context: env.managedObjectContext) {
-                            env.dismiss()
+                        Task {
+                            if await habitModel.addHabbit(
+                                context: env.managedObjectContext) {
+                                env.dismiss()
+                            }
                         }
                     }
                     .tint(.white)
+                    .disabled(!habitModel.doneStatus())
+                    .opacity(habitModel.doneStatus() ? 1 : 0.6)
                 }
             }
         }
