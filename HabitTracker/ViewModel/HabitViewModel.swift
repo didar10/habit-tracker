@@ -18,4 +18,17 @@ final class HabitViewModel: ObservableObject {
     @Published var isRemainderOn: Bool = false
     @Published var remainderText: String = ""
     @Published var remainderDate: Date = Date()
+    
+    //MARK: Remainder Time Picker
+    @Published var showTimePicker: Bool = false
+    
+    //MARK: Adding Habit to Database
+    func addHabbit(context: NSManagedObjectContext) -> Bool {
+        return false
+    }
+    
+    //MARK: Erasing Content
+    func resetData() {
+        
+    }
 }

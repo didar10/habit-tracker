@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddNewHabit: View {
     @EnvironmentObject var habitModel: HabitViewModel
+    @Environment(\.self) var env
     var body: some View {
         NavigationView {
             VStack(spacing: 15) {
@@ -56,10 +57,10 @@ struct AddNewHabit: View {
                             Text(day.prefix(2))
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity)
-                                .padding(.vertical)
+                                .padding(.vertical, 12)
                                 .background {
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .fill(Color("TFBG").opacity(0.4))
+                                        .fill(index != -1 ? Color(habitModel.habitColor) : Color("TFBG").opacity(0.4))
                                 }
                                 .onTapGesture {
                                     withAnimation {
@@ -72,8 +73,51 @@ struct AddNewHabit: View {
                                 }
                         }
                     }
+                    .padding(.top, 15)
                 }
+                
+                Divider()
+                    .padding(.vertical, 10)
+                
+                HStack {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Remainder")
+                            .fontWeight(.semibold)
+                        
+                        Text("Just notification")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Toggle(isOn: $habitModel.isRemainderOn) {}
+                        .labelsHidden()
+                }
+                
+                HStack(spacing: 12) {
+                    Label {
+                        Text(habitModel.remainderDate.formatted(date: .omitted, time: .shortened))
+                    } icon: {
+                        Image(systemName: "clock")
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 12)
+                    .background(Color("TFBG").opacity(0.4), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+                    .onTapGesture {
+                        withAnimation {
+                            habitModel.showTimePicker.toggle()
+                        }
+                    }
+                    
+                    TextField("Remainder Text", text: $habitModel.remainderText)
+                        .padding(.horizontal)
+                        .padding(.vertical, 10)
+                        .background(Color("TFBG").opacity(0.4), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+                }
+                .frame(height: habitModel.isRemainderOn ? nil : 0)
+                .opacity(habitModel.isRemainderOn ? 1 : 0)
             }
+            .animation(.easeInOut, value: habitModel.isRemainderOn)
             .frame(maxHeight: .infinity, alignment: .top)
             .padding()
             .navigationBarTitleDisplayMode(.inline)
@@ -81,7 +125,7 @@ struct AddNewHabit: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        
+                        env.dismiss()
                     } label: {
                         Image(systemName: "xmark.circle")
                     }
@@ -90,9 +134,35 @@ struct AddNewHabit: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Done") {
-                        
+                        if habitModel.addHabbit(context: env.managedObjectContext) {
+                            env.dismiss()
+                        }
                     }
                     .tint(.white)
+                }
+            }
+        }
+        .overlay {
+            if habitModel.showTimePicker {
+                ZStack {
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation {
+                                habitModel.showTimePicker.toggle()
+                            }
+                        }
+                    
+                    DatePicker.init("", selection: $habitModel.remainderDate, displayedComponents: [.hourAndMinute])
+                        .datePickerStyle(.wheel)
+                        .labelsHidden()
+                        .padding()
+                        .background {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color("TFBG"))
+                        }
+                        .padding()
                 }
             }
         }
